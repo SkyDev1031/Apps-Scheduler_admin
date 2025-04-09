@@ -1,0 +1,97 @@
+# -------------------------
+# Laravel-specific ignores
+# -------------------------
+/vendor
+
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+.env.example
+/public/hot
+/public/storage
+/storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*.log
+/bootstrap/cache/*.php
+/node_modules
+
+# IDE/editor specific files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Composer lock file (optional, depending on your workflow)
+# composer.lock
+
+# Cache files
+*.cache
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Temp files
+*.tmp
+*.temp
+
+# PHPUnit and testing
+/phpunit.xml
+/phpunit.xml.dist
+/tests/TestCase.php
+/tests/CreatesApplication.php
+
+# Laravel Debugbar
+_debugbar/
+
+# Laravel Telescope
+.telescope/
+
+# Laravel Nova
+nova-components/
+
+# Laravel Sail
+.sail/
+docker-compose.override.yml
+docker/
+
+# Laravel Pint
+.pint.json
+
+# Laravel Breeze / Jetstream
+/resources/js/Pages/**/*.vue
+/resources/js/Layouts/**/*.vue
+
+
+# -------------------------
+# React-specific ignores
+# -------------------------
+# Node.js and npm/yarn specific files
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+# Build artifacts
+/public
+
+# React cache
+/.cache/
+/.next/
+
+# Environment variables
+.env.local
+.env.development
+.env.production
+
+# Optional: Ignore compiled assets if using Laravel Mix
+/public/build/
+/public/dist/
+
+# Optional: Ignore sourcemaps
+*.map
+*.zip
+# Optional: Ignore VS Code settings
+.vscode/
