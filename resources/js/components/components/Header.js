@@ -11,54 +11,14 @@ import { AdminNavbar, AdminProfileItem, NavKeys, UserNavbar, _ERROR_CODES } from
 import { useGlobalContext } from "../contexts";
 import { logoutUser, toast_error, toast_success } from "../utils";
 
-
-const _MODAL_TYPE = {
-    CONFIRM_2ND_PWD: 0,
-    CONNECT_WALLET: 1,
-    NON_REFERRAL_SIGNUP: 2,
-}
-const _WALLET_TYPES = [
-    { id: 1, label: 'Metamask', image: IMAGES.wt_metamask },
-    { id: 2, label: 'WalletConnect', image: IMAGES.wt_wallet },
-    { id: 3, label: 'Trust wallet', image: IMAGES.wt_trustwallet },
-    { id: 4, label: 'Coinbase Wallet', image: IMAGES.wt_coinbase },
-    { id: 5, label: 'Lattice', image: IMAGES.wt_lattice },
-    { id: 6, label: 'Torus', image: IMAGES.wt_torus },
-]
 export default function Header({ isSubItem, location, subNav }) {
     const { conf2ndPwd, setLoading, check2ndPassword, user, isAdmin, holdings } = useGlobalContext();
     const { status, connect, account } = useMetaMask();
     const _role_prefix = isAdmin ? '/admin' : '/user';
 
-    const [modalOptions, setModalOptions] = useState({
-        visible: false,
-        password: '',
-        type: _MODAL_TYPE.CONFIRM_2ND_PWD
-    })
-    const _data = modalOptions.data || {};
-    const _isConnectWallet = modalOptions.type == _MODAL_TYPE.CONNECT_WALLET;
-    const _isConf2nd = modalOptions.type == _MODAL_TYPE.CONFIRM_2ND_PWD;
-    const _isNonReferral = modalOptions.type == _MODAL_TYPE.NON_REFERRAL_SIGNUP;
-
-    const getMetamask = () => {
-        if (status === "initializing") return <div className="cmn-btn wallet-id">Synchronisation...</div>
-        if (status === "unavailable") return <div className="cmn-btn wallet-id">Not available</div>
-        if (status === "notConnected") return (
-            <button
-                onClick={() => setModalOptions({ visible: true, type: conf2ndPwd ? _MODAL_TYPE.CONNECT_WALLET : _MODAL_TYPE.CONFIRM_2ND_PWD })}
-                className="cmn-btn wallet-id"
-            >Connect Wallet</button>
-        )
-        if (status === "connecting") return <div className="cmn-btn wallet-id">Connecting...</div>
-        if (status === "connected") return <div className="cmn-btn wallet-id">{account}</div>
-    }
 
     const handleClose = () => {
         setModalOptions({})
-    }
-    const onConnect = (wallet) => {
-        connect();
-        handleClose();
     }
     const handleAction = async (e) => {
         e?.preventDefault?.();
@@ -182,12 +142,6 @@ export default function Header({ isSubItem, location, subNav }) {
                                                     </li> */}
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div className="single-item">
-                                            <div className="cmn-btn wallet-id" id="kycBtn" onClick={() => { toast_success("Coming Soon!") }}>KYC</div>
-                                        </div>
-                                        <div className="single-item">
-                                            {getMetamask()}
                                         </div>
                                         <div className="single-item user-area">
                                             <div className="profile-area d-flex align-items-center">
@@ -314,73 +268,6 @@ export default function Header({ isSubItem, location, subNav }) {
                         </div>
                     </div>
                 </div>
-                <Dialog
-                    open={modalOptions.visible || false}
-                    onClose={handleClose}
-                    scroll={'paper'}
-                    maxWidth={'xs'}
-                    fullWidth={true}
-                    id="wallet-modal"
-                    className={_isConnectWallet ? "header-wallet-modal" : ''}
-                >
-                    {_isConnectWallet ?
-                        <div className="wallet-modal-container">
-                            <div className="wallet-modal-content">
-                                <span className="close" id="close" onClick={handleClose}>&times;</span>
-                                <p><b>Connect to a Wallet</b></p>
-                                {_WALLET_TYPES.map(item => (
-                                    <div key={item.id} onClick={() => onConnect(item)} className="wallet-item">
-                                        <div>{item.label}</div>
-                                        <Image src={item.image} def={IMAGES.noimage} />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        :
-                        <>
-                            <DialogTitle id="scroll-dialog-title" className='pt-20'>
-                                {_isConf2nd ? 'Confirm secondary password' : _isNonReferral ? 'Non Referral Signup' : 'Dialog'}
-                            </DialogTitle>
-                            <DialogContent dividers={true} className="p-20">
-                                <form onSubmit={handleAction}>
-                                    {_isConf2nd &&
-                                        <TextField className='no-border-input m-5' autofocusmargin="dense" name='password' label="Secondary Password"
-                                            type="password" fullWidth variant="standard" value={modalOptions.password || ''}
-                                            onChange={e => setModalOptions({ ...modalOptions, password: e.target.value })}
-                                        />
-                                    }
-                                    {_isNonReferral &&
-                                        <>
-                                            <FormControl fullWidth>
-                                                <RadioGroup
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    defaultValue={_data.Leg || 0}
-                                                    onChange={e => updateModalData({ Leg: e.target.value })}
-                                                    name="radio-buttons-group"
-                                                >
-                                                    <FormControlLabel value="Least" control={<Radio />} label="Leg With Least Amount Of Clients" />
-                                                    <FormControlLabel value="Left" control={<Radio />} label="Left Leg" />
-                                                    <FormControlLabel value="Right" control={<Radio />} label="Right Leg" />
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormControl fullWidth>
-                                                <TextField className='no-border-input m-5' autofocusmargin="dense" name='Username'
-                                                    label="Client who gets referral" placeholder='Client who gets referral' variant="standard"
-                                                    value={_data.Username || ''}
-                                                    onChange={e => updateModalData({ Username: e.target.value })}
-                                                />
-                                            </FormControl>
-                                        </>
-                                    }
-                                </form>
-                            </DialogContent>
-                            <DialogActions className='table-action p-20'>
-                                <Button className='p-button-danger' onClick={handleClose}>Cancel</Button>
-                                <Button className='p-button-success' onClick={handleAction}>{'Confirm'}</Button>
-                            </DialogActions>
-                        </>
-                    }
-                </Dialog >
             </header >
         </div >
     )
