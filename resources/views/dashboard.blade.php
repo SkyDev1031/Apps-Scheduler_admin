@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Apps Scheduler</title>
-    <meta name="description" content="Quickly and easily send, receive and request money online with Paylio. Get a customised solution to fit your business needs.">
+    <meta name="description" content="Analysis App Usage Duration and Frequency">
     <link rel="preload" as="image" href="{{asset('assets/preloader.gif')}}">
     <link rel="preload" as="script" href="{{asset('js/auth.js')}}">
     <link rel="preload" as="script" href="{{asset('assets/home/js/jquery-ui.min.js')}}">

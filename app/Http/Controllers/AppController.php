@@ -387,24 +387,41 @@ class AppController extends Controller
         return true;
     }
 
-    public function insertAppUserInfo(Request $request)
+    public function insertAppUseInfo(Request $request)
     {
         // Prepare the data to be inserted
         $data = [
             'phonenumber' => $request->phonenumber,
             'username' => $request->username,
-            'app_name' => $request->appName, // Renamed from app_package_name
-            'app_start_time' => $request->appStartTime, // Renamed from app_last_item_used
-            'app_end_time' => $request->appEndTime, // Renamed from from
-            'app_duration' => $request->appDuration, // Renamed from to
+            'app_name' => $request->appName,
+            'app_start_time' => $request->appStartTime,
+            'app_end_time' => $request->appEndTime,
+            'app_duration' => $request->appDuration,
             'app_scheduled_flag' => $request->appScheduledFlag,
-            'saved_time' => $request->savedTime // Renamed from date
+            'saved_time' => $request->savedTime ?? $request->saveTime
         ];
 
-        // Insert the data into the database
+        // Check for duplicate based on specific fields
+        $exists = AppUseInfo::where('phonenumber', $data['phonenumber'])
+            ->where('username', $data['username'])
+            ->where('app_name', $data['app_name'])
+            ->where('app_start_time', $data['app_start_time'])
+            ->where('app_end_time', $data['app_end_time'])
+            ->where('app_duration', $data['app_duration'])
+            ->where('app_scheduled_flag', $data['app_scheduled_flag'])
+            ->where('saved_time', $data['saved_time'])
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'message' => 'Duplicate entry. This app usage info already exists.',
+                'success' => true,
+            ], 200);
+        }
+
+        // Insert the data
         $appUseInfo = AppUseInfo::create($data);
 
-        // Check if the insertion was successful
         if ($appUseInfo && $appUseInfo->id) {
             return response()->json([
                 'message' => 'Info registered successfully!',

@@ -171,7 +171,12 @@ Route::post("/app/registerAppUser", [AppController::class, 'registerAppUser']);
 Route::post("/app/phonecheckCreate", [AppController::class, 'phonecheckCreate']);
 Route::post("/app/phonecheckValidate", [AppController::class, 'phonecheckValidate']);
 Route::post("/app/alreadyexist", [AppController::class, 'isAlreadyExist']);
-Route::post("/app/insertAppUserInfo", [AppController::class, 'insertAppUserInfo']);
+
+// must be updated later
+Route::post("/app/insertAppUserInfo", [AppController::class, 'insertAppUseInfo']);
+Route::post("/app/insertAppUseInfo", [AppController::class, 'insertAppUseInfo']);
+//
+
 Route::post("/app/insertPhoneUseInfo", [AppController::class, 'insertPhoneUseInfo']);
 Route::post('/app/deleteAppInfoByPhonenumber', [AppController::class, 'deleteAppInfoByPhonenumber']);
 Route::post('/app/removeall', [AppController::class, 'truncateAppInfo']);

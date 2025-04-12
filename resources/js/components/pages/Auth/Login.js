@@ -17,14 +17,14 @@ const Login = () => {
         await login(email, password)
     }
     return (
-        <section className="login-reg">
+        <section className="login-reg mt-2">
             <div className="overlay mt-60">
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-xl-6 order-xl-0 order-1">
                             <div className="sec-img d-rtl">
                                 <img
-                                    src={IMAGES.register_bg}
+                                    src={IMAGES.app_download}
                                     className="max-un"
                                     alt="image"
                                 />
