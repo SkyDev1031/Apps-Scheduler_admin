@@ -15,14 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("login", 'ApiController@login');
-Route::post("register", 'ApiController@register');
-Route::get("referral/{key}", 'ApiController@checkRefLink');
-Route::get("admin/bitquery/getTemplateSettings", 'ApiController@getBitqueryTemplateSettings');
-
-// Update the Purchase Log
-Route::post("/v1/purchaselog", 'ApiController@insert_PurchaseLog');
-
 
 Route::middleware('auth:api')->group(function () {
     Route::get("user", 'ApiController@user');
@@ -161,6 +153,16 @@ Route::middleware('auth:api')->group(function () {
 
 
 });
+
+
+
+Route::post("login", 'ApiController@login');
+Route::post("register", 'ApiController@register');
+Route::get("referral/{key}", 'ApiController@checkRefLink');
+Route::get("admin/bitquery/getTemplateSettings", 'ApiController@getBitqueryTemplateSettings');
+
+// Update the Purchase Log
+Route::post("/v1/purchaselog", 'ApiController@insert_PurchaseLog');
 
 // App Api Router
 Route::get("/app", [AppController::class, 'index']);
