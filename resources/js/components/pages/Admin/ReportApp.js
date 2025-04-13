@@ -59,7 +59,6 @@ const ReportApp = () => {
             if (!isDelete) return;
             deleteAppUseInfosApi(data.phonenumber)
                 .then(res => {
-                    console.log(res)
                     toast_success(res?.message)
                     getAppUsageInfos();
                 })

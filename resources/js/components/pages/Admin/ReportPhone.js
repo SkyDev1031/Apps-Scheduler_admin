@@ -82,7 +82,6 @@ const ReportPhone = () => {
             if (!isDelete) return;
             deletePhoneUseInfosApi(data.phonenumber)
                 .then(res => {
-                    console.log(res)
                     toast_success(res?.message)
                     getPhoneUsageInfos();
                 })
@@ -94,7 +93,6 @@ const ReportPhone = () => {
     // Handle row click event
     const handleRowClick = (event) => {
         const rowData = event.data; // Get the data of the clicked row
-        console.log('Row clicked:', rowData);
         // Example: Navigate to a details page for the clicked row
         navigate(`/admin/reportPhone/details/${encryptParam(rowData.phonenumber)}`);
     };

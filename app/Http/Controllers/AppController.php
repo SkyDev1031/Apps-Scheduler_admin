@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\Appuser;
 use App\Models\PhoneUseInfo;
+use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
 use Vonage\Client\Credentials\Container;
@@ -419,19 +420,32 @@ class AppController extends Controller
             ], 200);
         }
 
-        // Insert the data
-        $appUseInfo = AppUseInfo::create($data);
-
-        if ($appUseInfo && $appUseInfo->id) {
+        try {
+            // Insert the data
+            $appUseInfo = AppUseInfo::create($data);
+    
+            if ($appUseInfo && $appUseInfo->id) {
+                return response()->json([
+                    'message' => 'Info registered successfully!',
+                    'success' => true,
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'There was a problem. Please try again.',
+                    'success' => false,
+                ], 200);
+            }
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) { // Integrity constraint violation
+                return response()->json([
+                    'message' => 'Duplicate entry. This app usage info already exists.',
+                    'success' => true, // still true because no need to re-send
+                ], 200);
+            }
             return response()->json([
-                'message' => 'Info registered successfully!',
-                'success' => true,
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'There was a problem. Please try again.',
+                'message' => 'Database error.',
                 'success' => false,
-            ], 200);
+            ], 500);
         }
     }
 

@@ -57,7 +57,6 @@ const _REQUEST = (url, method, data) => {
                 }
             })
             .catch(err => {
-                console.log('888888888888', err)
                 reject(err.message || 'Something went wrong')
             })
     })

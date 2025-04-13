@@ -24,7 +24,6 @@ const CryptoPulse = ({ type }) => {
         setLoading(true);
         coinPulsesApi(type)
             .then(res => {
-                console.log("User CryptoPulse res = : ", res);
                 setCoinPulses(res.data);
                 setActiveDiscussions(res.discussions);
             })

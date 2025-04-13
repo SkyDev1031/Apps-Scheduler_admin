@@ -29,14 +29,11 @@ const Register = (props) => {
 
     const getTemplateSettings = useCallback(async () => {
         try {
-            console.log("User Register getTemplateSettings");
             let res = await getBitqueryTemplateSettings();
-            console.log("User Register getTemplateSettings res === : ", res.data);
             if (res.success) {
                 setRegistration(res.data.isRegistration === 1 ? true : false);
             }
         } catch (error) {
-            console.log("User Marketplace getTemplateSettings error === : ", error);
             toast_error("Invalid Server Connection!");
         }
     }, []);

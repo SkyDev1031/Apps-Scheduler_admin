@@ -483,12 +483,10 @@ export const ChatContextProvider = ({ children, user, server_url, client_id, cli
             audio: callConfig.mic_enabled
         }).then(stream => {
             if (myStream) {
-                console.log({ myStream });
                 const prevTrack = myStream.getVideoTracks()[0];
                 const newTrack = stream.getVideoTracks()[0];
                 myStream.removeTrack(prevTrack);
                 myStream.addTrack(newTrack);
-                console.log({ myStream });
 
                 // var screenVideoTrack = myStream.getVideoTracks()[0];
                 // videoSender.replaceTrack(screenVideoTrack);

@@ -35,8 +35,8 @@ const ReportAppDetails = () => {
     const [query, setQuery] = useState('')
     const { setLoading, confirmDialog } = useGlobalContext();
     const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(today);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const isFirstRender = useRef(true); // Create a ref to track the first render
 
     const getAppUsageInfos = () => {    
@@ -137,8 +137,6 @@ const ReportAppDetails = () => {
         navigate(`/admin/reportApp`);
     }
     const viewByDate = () => {
-        console.log(startDate)
-        console.log(endDate)
         getAppUsageByDateInfos()
     }
     return (

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 function SimpleDatePicker({ label, defaultValue, onChange, style }) {
   // Set the default value to today if no defaultValue is provided
   const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-  const [selectedDate, setSelectedDate] = useState(defaultValue || today);
+  const [selectedDate, setSelectedDate] = useState('');
   // Handle date changes
   const handleDateChange = (event) => {
     const newDate = event.target.value;

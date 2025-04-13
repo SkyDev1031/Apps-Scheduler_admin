@@ -1,8 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
+import { useState, useEffect } from 'react'
 import { useMetaMask } from "metamask-react";
 import { Avatar } from 'primereact';
 import { Button } from 'primereact/button';
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getNonReferralApi, runBinaryPayoutApi, updateNonReferralApi } from '../api';
 import { IMAGES } from "../assets";
@@ -10,12 +10,18 @@ import { Image } from "../components";
 import { AdminNavbar, AdminProfileItem, NavKeys, UserNavbar, _ERROR_CODES } from "../config";
 import { useGlobalContext } from "../contexts";
 import { logoutUser, toast_error, toast_success } from "../utils";
+import { useAuth } from "../hooks";
 
 export default function Header({ isSubItem, location, subNav }) {
     const { conf2ndPwd, setLoading, check2ndPassword, user, isAdmin, holdings } = useGlobalContext();
     const { status, connect, account } = useMetaMask();
     const _role_prefix = isAdmin ? '/admin' : '/user';
+    const { _user } = useAuth();
 
+
+    useEffect(() => {
+        console.log(_user)
+    }, [])
 
     const handleClose = () => {
         setModalOptions({})
@@ -213,12 +219,12 @@ export default function Header({ isSubItem, location, subNav }) {
                                     </a>
                                 </div>
                                 <ul>
-                                    {(isAdmin ? AdminNavbar : UserNavbar).filter(function(item) {
-                                            if (item.prefix == "moderator" && user.support=="0") {
-                                                return false; // skip
-                                            }
-                                            return true;
-                                        }).map((item, index) => {
+                                    {(isAdmin ? AdminNavbar : UserNavbar).filter(function (item) {
+                                        if (item.prefix == "moderator" && user.support == "0") {
+                                            return false; // skip
+                                        }
+                                        return true;
+                                    }).map((item, index) => {
                                         const isactive = location.startsWith(`${_role_prefix}/${item.prefix || item.link}`)
                                         return (
                                             <li className={isactive ? 'active' : ''} key={index}>

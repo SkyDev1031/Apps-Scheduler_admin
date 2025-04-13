@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
 use Twilio\Rest\Client;
-
+use Illuminate\Support\Facades\Http; // Laravel HTTP client
 class ApiController extends Controller
 {
     //
@@ -57,6 +57,7 @@ class ApiController extends Controller
         $check = Hash::check($request->password, Auth::user()->secPassword);
         return response(['success' => $check, 'message' => $check ? '' : 'Secondary password is wrong'], 200);
     }
+
     public function login(Request $request)
     {
         $username = $request->username;
@@ -84,6 +85,61 @@ class ApiController extends Controller
         $response = ['user' => $user, 'token' => $token, 'success' => true];
         return response($response, 200);
     }
+
+
+    // public function login(Request $request)
+    // {
+    //     $username = $request->username;
+    //     $password = $request->password;
+
+    //     $user = User::where('username', $username)->orWhere('ScreenName', $username)->first();
+    //     $message = null;
+
+    //     if (!$user || !Hash::check($password, $user->password)) {
+    //         $message = 'These credentials do not match our records.';
+    //     } else if ($user->status == 'Pending') {
+    //         $message = 'Your account activation is pending!';
+    //     } else if ($user->status == 'Suspended') {
+    //         $message = 'Your account has been suspended! Please contact the administrator!';
+    //     }
+
+    //     if ($message) {
+    //         return response(['message' => $message, 'success' => false], 200);
+    //     }
+
+    //     // Call the /oauth/token endpoint
+    //     $http = Http::asForm()->post(url('/oauth/token'), [
+    //         'grant_type' => 'password',
+    //         'client_id' => config('services.passport.client_id'),
+    //         'client_secret' => config('services.passport.client_secret'),
+    //         'username' => $username,
+    //         'password' => $password,
+    //         'scope' => '',
+    //     ]);
+
+    //     if ($http->failed()) {
+    //         return response(['message' => 'OAuth failed', 'success' => false], 401);
+    //     }
+
+    //     $tokens = $http->json(); // contains access_token, refresh_token, expires_in, etc.
+
+    //     $ip = $request->ip();
+    //     $user->update([
+    //         'LoginIP' => $ip,
+    //         'LoginStatus' => 1,
+    //     ]);
+
+    //     return response([
+    //         'user' => $user,
+    //         'Token' => $tokens['access_token'],
+    //         'refresh_token' => $tokens['refresh_token'],
+    //         'expires_in' => $tokens['expires_in'],
+    //         'success' => true
+    //     ]);
+    // }
+
+
+
     public function user()
     {
         $user = Auth::user();
@@ -931,15 +987,15 @@ class ApiController extends Controller
         }
         $CID = $request->cid;
         $CID_info = TblCrypto::where('id', $CID)->first();
-        $Amount = $request->TransferAmount/$CID_info->Price;
+        $Amount = $request->TransferAmount / $CID_info->Price;
         $seller_id = $request->seller_id;
-        $TransferFee = $request->TransferFee/$CID_info->Price;
+        $TransferFee = $request->TransferFee / $CID_info->Price;
         $FeesType = $request->TransferFeeType;
 
         $supportCredits = TblSupportBuy::where('tbl_support_buy.status', 1)
             ->where('tbl_support_buy.product_id', $product_id)->sum('tbl_support_buy.BusdAmount');
 
-        if(($supportCredits-$Amount)<=0){
+        if (($supportCredits - $Amount) <= 0) {
             return response(['message' => 'end', 'success' => true], 200);
         }
 
@@ -955,11 +1011,11 @@ class ApiController extends Controller
             'UID' => $user_id,
             'buy_date' => date('Y-m-d h:i:s'),
             'product_id' => $product_id,
-            'BusdAmount' => $Amount*(-1),
+            'BusdAmount' => $Amount * (-1),
         );
 
         ClientsModel::insert_support_buy($data);
-        
+
         return response(['message' => 'Tranfer confirm successfully!', 'success' => true], 200);
     }
 
@@ -1005,9 +1061,9 @@ class ApiController extends Controller
             'UID' => $user_id,
             'buy_date' => date('Y-m-d h:i:s'),
             'product_id' => $request->product_id,
-            'BusdAmount' => $request->supportCredits*(-1),
+            'BusdAmount' => $request->supportCredits * (-1),
         );
-        if($request->supportCredits>0)
+        if ($request->supportCredits > 0)
             ClientsModel::insert_support_buy($data);
         return response(['message' => 'Cansel support confirm successfully!', 'success' => true], 200);
     }
@@ -2039,11 +2095,11 @@ class ApiController extends Controller
 
     /**  
      * Insert the Log of Purchase the App
-    * @author Richard Kei
-    * @param userid, money, purchased date
-    * @since 2024-05-15
-    * @return boolean true or false
-    */
+     * @author Richard Kei
+     * @param userid, money, purchased date
+     * @since 2024-05-15
+     * @return boolean true or false
+     */
     public function insert_PurchaseLog(Request $request)
     {
         $data = [];
@@ -2058,7 +2114,7 @@ class ApiController extends Controller
             $status = 200;
             $result = true;
             $msg = "Successfully saved the purchase log.";
-        }else{
+        } else {
             $status = 500;
             $result = false;
             $msg = "Unfortunately failed to save the purchase log.";
