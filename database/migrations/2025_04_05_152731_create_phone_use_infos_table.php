@@ -16,7 +16,7 @@ class CreatePhoneUseInfosTable extends Migration
         Schema::create('phone_use_infos', function (Blueprint $table) {
             $table->id();
             $table->string('phonenumber');
-            $table->string('username');
+            $table->string('userID');
             $table->string('phone_frequency_unlock');
             $table->date('date');
             $table->timestamps();

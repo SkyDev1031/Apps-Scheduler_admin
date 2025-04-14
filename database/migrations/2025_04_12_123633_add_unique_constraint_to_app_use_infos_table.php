@@ -17,7 +17,7 @@ class AddUniqueConstraintToAppUseInfosTable extends Migration
             ALTER TABLE app_use_infos 
             ADD UNIQUE INDEX unique_app_use_info (
                 phonenumber(20), 
-                username(50), 
+                userID(50), 
                 app_name(100), 
                 app_start_time, 
                 app_end_time, 

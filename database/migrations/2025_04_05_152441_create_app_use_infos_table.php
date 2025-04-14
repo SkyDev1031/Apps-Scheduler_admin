@@ -16,7 +16,7 @@ class CreateAppUseInfosTable extends Migration
         Schema::create('app_use_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('phonenumber');
-            $table->string('username');
+            $table->string('userID');
             $table->string('app_name');
             $table->dateTime('app_start_time');
             $table->dateTime('app_end_time');
