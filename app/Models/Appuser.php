@@ -10,7 +10,7 @@ class Appuser extends Model
     use HasFactory;
     protected $table = 'appusers';
     protected $fillable = [
-        'username',
+        'userID',
         'phonenumber',
         'password',
     ];

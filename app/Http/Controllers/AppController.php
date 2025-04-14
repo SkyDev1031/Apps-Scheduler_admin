@@ -150,7 +150,7 @@ class AppController extends Controller
     public function logout() {}
     public function signup(Request $request)
     {
-        $userID = $request->userID;
+        $userID = $request->userID ?? $request->username;
         $useremail = $request->useremail;
         $password = $request->password;
         $isExits = Appuser::where('useremail', $useremail)->count() > 0;
@@ -373,7 +373,7 @@ class AppController extends Controller
     public function isAlreadyExist(Request $request)
     {
         $phonenumber = $request->phonenumber;
-        $userID = $request->userID;
+        $userID = $request->userID ?? $request->username;
         $date = $request->date;
         $exists = AppUseInfo::where('phonenumber', $phonenumber)
             ->where('userID', $userID)
@@ -393,7 +393,7 @@ class AppController extends Controller
         // Prepare the data to be inserted
         $data = [
             'phonenumber' => $request->phonenumber,
-            'userID' => $request->userID,
+            'userID' => $request->userID ?? $request->username,
             'app_name' => $request->appName,
             'app_start_time' => $request->appStartTime,
             'app_end_time' => $request->appEndTime,
@@ -489,7 +489,7 @@ class AppController extends Controller
     {
         // Extract data from the request
         $phoneNumber = $request->phonenumber;
-        $userID = $request->userID;
+        $userID = $request->userID ?? $request->username;
         $frequency = $request->phoneFrequencyUnlock;
         $date = $request->date;
 

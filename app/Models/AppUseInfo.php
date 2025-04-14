@@ -11,7 +11,7 @@ class AppUseInfo extends Model
     protected $table = 'app_use_infos';
     protected $fillable = [
         'phonenumber',
-        'username',
+        'userID',
         'app_name',
         'app_start_time',
         'app_end_time',

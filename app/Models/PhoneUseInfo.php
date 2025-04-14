@@ -11,7 +11,7 @@ class PhoneUseInfo extends Model
     protected $table = 'phone_use_infos';
     protected $fillable = [
         'phonenumber',
-        'username',
+        'userID',
         'phone_frequency_unlock',
         'date'
     ];
