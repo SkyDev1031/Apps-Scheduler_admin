@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\PurchaseLog;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -36,7 +37,7 @@ class AdminController extends Controller
           app_use_infos
             GROUP BY phonenumber
         ORDER BY phonenumber ASC";
-        $appuseinfos = \DB::select($sql);
+        $appuseinfos = DB::select($sql);
         return view('appuseinfo', compact('appuseinfos'));
 }
     public function appUseInfoByPhonenumber(Request $request)
@@ -61,7 +62,7 @@ class AdminController extends Controller
                 where phonenumber='+$phonenumber'
                 group by app_package_name
                 order by app_package_name";
-        $appuseinfos = \DB::select($sql);
+        $appuseinfos = DB::select($sql);
         return view('appuseinfofreq', ['appuseinfos' => $appuseinfos, 'phonenumber' => $phonenumber]);
     }
     public function phoneuseinfos()
@@ -75,7 +76,7 @@ class AdminController extends Controller
           phone_use_infos
             GROUP BY phonenumber
         ORDER BY phonenumber ASC";
-        $phoneuseinfos = \DB::select($sql);
+        $phoneuseinfos = DB::select($sql);
         return view('phoneuseinfo', ['phoneuseinfos' => $phoneuseinfos]);
     }
 

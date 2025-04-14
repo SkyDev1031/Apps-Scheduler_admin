@@ -222,7 +222,7 @@ class AppController extends Controller
         ";
 
         // Execute the query using the database connection
-        $appUseInfos = \DB::select($sql);
+        $appUseInfos = DB::select($sql);
 
         // Return the response with the data
         return response()->json(['data' => $appUseInfos]);
@@ -273,7 +273,7 @@ class AppController extends Controller
         $sql .= " ORDER BY saved_time ASC, app_name ASC";
 
         // Execute the query with parameter binding to prevent SQL injection
-        $appUseInfos = \DB::select($sql, $bindings);
+        $appUseInfos = DB::select($sql, $bindings);
 
         // Return the response
         return response()->json([
@@ -331,7 +331,7 @@ class AppController extends Controller
         ";
 
         // Execute the query with parameter binding to prevent SQL injection
-        $appUseInfos = \DB::select($sql, $bindings);
+        $appUseInfos = DB::select($sql, $bindings);
 
         // Return the response
         return response()->json([
@@ -352,7 +352,7 @@ class AppController extends Controller
           phone_use_infos
             GROUP BY phonenumber
         ORDER BY phonenumber ASC";
-        $phoneuseinfos = \DB::select($sql);
+        $phoneuseinfos = DB::select($sql);
         return response(['data' => $phoneuseinfos]);
     }
 
