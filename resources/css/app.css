@@ -2,7 +2,12 @@
 .p-inputswitch {
     margin-top: 0.25rem !important;
 }
-
+.text-right {
+    text-align: right !important;
+}
+.text-center {
+    text-align: center !important;
+}
 .single-card .p-inputswitch {
     margin-top: 0.5rem !important;
 }

@@ -150,19 +150,19 @@ class AppController extends Controller
     public function logout() {}
     public function signup(Request $request)
     {
-        $username = $request->username;
+        $userID = $request->userID;
         $useremail = $request->useremail;
         $password = $request->password;
         $isExits = Appuser::where('useremail', $useremail)->count() > 0;
         // return response([
-        //     "username" => $username,
+        //     "userID" => $userID,
         //     "useremail" => $useremail,
         //     "password" => $password
         // ], 200);
         if ($isExits) return response(json_encode(['message' => "Email already exists.", 'success' => false]), 200);
 
         $data = array(
-            'username' => $username,
+            'userID' => $userID,
             'useremail' => $useremail,
             'password' => Hash::make($password)
         );
@@ -180,13 +180,13 @@ class AppController extends Controller
 
     public function registerAppUser(Request $request)
     {
-        $username = $request->username;
+        $userID = $request->userID ?? $request->username;
         $phonenumber = $request->phonenumber;
         $isExits = Appuser::where('phonenumber', $phonenumber)->count() > 0;
         if ($isExits) return response(json_encode(['message' => "PhoneNumber already exists.", 'success' => true]), 200);
 
         $data = array(
-            'username' => $username,
+            'userID' => $userID,
             'phonenumber' => $phonenumber,
             'password' => ""
         );
@@ -207,7 +207,7 @@ class AppController extends Controller
         $sql = "
             SELECT
                 phonenumber,
-                username,
+                userID,
                 app_name,
                 app_start_time,
                 app_end_time,
@@ -240,7 +240,7 @@ class AppController extends Controller
         $sql = "
             SELECT
                 phonenumber,
-                username,
+                userID,
                 app_name,
                 app_start_time,
                 app_end_time,
@@ -295,7 +295,7 @@ class AppController extends Controller
             SELECT
                 id,
                 phonenumber,
-                username,
+                userID,
                 app_name,
                 COUNT(app_name) AS frequency_app_openings,
                 CASE
@@ -344,7 +344,7 @@ class AppController extends Controller
     {
         $sql = "SELECT
         phonenumber,
-        username,
+        userID,
         SUM(phone_frequency_unlock) as phone_frequency_unlock,
         MIN(`date`) AS `periodFrom`,
         MAX(`date`) AS `periodTo`
@@ -360,9 +360,9 @@ class AppController extends Controller
     {
         $phonenumber = $request->phonenumber;
         if ($phonenumber == "")
-            $phoneuseinfos = PhoneUseInfo::orderBy('phonenumber')->orderBy('date')->orderBy('username')->orderBy('phone_frequency_unlock')->get();
+            $phoneuseinfos = PhoneUseInfo::orderBy('phonenumber')->orderBy('date')->orderBy('userID')->orderBy('phone_frequency_unlock')->get();
         else
-            $phoneuseinfos = PhoneUseInfo::where('phonenumber', $phonenumber)->orderBy('date')->orderBy('username')->orderBy('phone_frequency_unlock')->get();
+            $phoneuseinfos = PhoneUseInfo::where('phonenumber', $phonenumber)->orderBy('date')->orderBy('userID')->orderBy('phone_frequency_unlock')->get();
 
         return response(['data' => $phoneuseinfos, 'phonenumber' => $phonenumber]);
     }
@@ -373,17 +373,17 @@ class AppController extends Controller
     public function isAlreadyExist(Request $request)
     {
         $phonenumber = $request->phonenumber;
-        $username = $request->username;
+        $userID = $request->userID;
         $date = $request->date;
         $exists = AppUseInfo::where('phonenumber', $phonenumber)
-            ->where('username', $username)
+            ->where('userID', $userID)
             ->where('date', $date)
             ->exists();
         if ($exists)
             return response(json_encode(['message' => "true", 'success' => 1]), 200);
         return response(json_encode(['message' => "false", 'success' => 0]), 200);
     }
-    public function deleteExistsData($phone_number, $username, $date)
+    public function deleteExistsData($phone_number, $userID, $date)
     {
         return true;
     }
@@ -393,7 +393,7 @@ class AppController extends Controller
         // Prepare the data to be inserted
         $data = [
             'phonenumber' => $request->phonenumber,
-            'username' => $request->username,
+            'userID' => $request->userID,
             'app_name' => $request->appName,
             'app_start_time' => $request->appStartTime,
             'app_end_time' => $request->appEndTime,
@@ -404,7 +404,7 @@ class AppController extends Controller
 
         // Check for duplicate based on specific fields
         $exists = AppUseInfo::where('phonenumber', $data['phonenumber'])
-            ->where('username', $data['username'])
+            ->where('userID', $data['userID'])
             ->where('app_name', $data['app_name'])
             ->where('app_start_time', $data['app_start_time'])
             ->where('app_end_time', $data['app_end_time'])
@@ -489,7 +489,7 @@ class AppController extends Controller
     {
         // Extract data from the request
         $phoneNumber = $request->phonenumber;
-        $username = $request->username;
+        $userID = $request->userID;
         $frequency = $request->phoneFrequencyUnlock;
         $date = $request->date;
 
@@ -498,7 +498,7 @@ class AppController extends Controller
             $phoneUseInfo = PhoneUseInfo::updateOrCreate(
                 [
                     'phonenumber' => $phoneNumber,
-                    'username' => $username,
+                    'userID' => $userID,
                     'date' => $date, // Check for an existing record with the same date
                 ],
                 [

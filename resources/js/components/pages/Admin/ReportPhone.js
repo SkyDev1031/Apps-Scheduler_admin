@@ -127,7 +127,7 @@ const ReportPhone = () => {
                     return <span>{index}</span>;
                 }} />
                 {/* <Column key={'phonenumber'} header={'PhoneNumber'} field={'phonenumber'} sortable /> */}
-                <Column key={'username'} header={'UserName'} field={'username'} sortable />
+                <Column key={'userID'} header={'UserID'} field={'userID'} sortable />
                 <Column key={'phone_frequency_unlock'} header={'Phone Opening Frequency'} field={'phone_frequency_unlock'} sortable />
                 <Column key={'periodFrom'} header={'From'} field={'periodFrom'} sortable />
                 <Column key={'periodTo'} header={'To'} field={'periodTo'} sortable />

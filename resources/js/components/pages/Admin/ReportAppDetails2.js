@@ -148,7 +148,7 @@ const ReportAppDetails2 = () => {
                     return <span>{index}</span>;
                 }} />
                 {/* <Column key={'phonenumber'} header={'PhoneNumber'} field={'phonenumber'} sortable /> */}
-                <Column key={'username'} header={'UserName'} field={'username'} sortable />
+                <Column key={'userID'} header={'UserID'} field={'userID'} sortable />
                 <Column key={'app_name'} header={'AppName'} field={'app_name'} sortable />
                 <Column key={'frequency_app_openings'} header={'Count'} field={'frequency_app_openings'} sortable />
                 <Column key={'scheduled_status'} header={'Scheduled Status'} field={'scheduled_status'} sortable />

@@ -123,7 +123,7 @@ const ReportApp = () => {
                     return <span>{index}</span>;
                 }} />
                 {/* <Column key={'phonenumber'} header={'PhoneNumber'} field={'phonenumber'} sortable /> */}
-                <Column key={'username'} header={'UserName'} field={'username'} sortable />
+                <Column key={'userID'} header={'UserID'} field={'userID'} sortable />
                 <Column key={'from_period'} header={'From'} field={'from_period'} sortable />
                 <Column key={'to_period'} header={'To'} field={'to_period'} sortable />
                 <Column key={'id'} header={''} field={'id'} sortable
