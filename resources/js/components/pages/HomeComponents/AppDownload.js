@@ -19,7 +19,6 @@ export const AppDownload = () => {
                         <div className="col-lg-5">
                             <div className="section-area">
                                 <h5 className="sub-title">App Download</h5>
-                                <h2 className="title">Fast, Secure Money Transfers</h2>
                                 <p>
                                     Download and install the app in your phone.
                                 </p>
